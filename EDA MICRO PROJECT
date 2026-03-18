@@ -1,0 +1,87 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_excel("/content/Book 1.xlsx")
+
+plt.figure()
+df["explicit"].value_counts().plot(kind="pie",autopct="%1.1f%%")
+plt.title("Distribution of Explicit and Non Explicit Songs")
+plt.ylabel("")
+plt.show()
+
+plt.figure()
+df.groupby("track_genre")["popularity"].mean().sort_values(ascending=False).head(10).plot(kind="bar")
+plt.title("Average Popularity of Top 10 Music Genres")
+plt.xlabel("Genre")
+plt.ylabel("Average Popularity")
+plt.show()
+
+plt.figure()
+plt.scatter(df["danceability"],df["popularity"])
+plt.title("Relationship Between Danceability and Song Popularity")
+plt.xlabel("Danceability")
+plt.ylabel("Popularity")
+plt.show()
+
+plt.figure()
+plt.scatter(df["tempo"],df["popularity"])
+plt.title("Relationship Between Tempo and Song Popularity")
+plt.xlabel("Tempo")
+plt.ylabel("Popularity")
+plt.show()
+
+plt.figure()
+df["popularity"].hist()
+plt.title("Distribution of Song Popularity")
+plt.xlabel("Popularity")
+plt.ylabel("Number of Songs")
+plt.show()
+
+plt.figure()
+df["tempo"].hist()
+plt.title("Distribution of Song Tempo")
+plt.xlabel("Tempo")
+plt.ylabel("Number of Songs")
+plt.show()
+
+plt.figure()
+df_sorted=df.sort_values("tempo").reset_index()
+plt.plot(df_sorted["index"],df_sorted["tempo"])
+plt.title("Trend of Song Tempo Across Dataset")
+plt.xlabel("Index")
+plt.ylabel("Tempo")
+plt.show()
+
+plt.figure()
+df_sorted=df.sort_values("popularity").reset_index()
+plt.plot(df_sorted["index"],df_sorted["popularity"])
+plt.title("Trend of Song Popularity Across Dataset")
+plt.xlabel("Index")
+plt.ylabel("Popularity")
+plt.show()
+
+plt.figure()
+corr=df[["popularity","duration_ms","danceability","loudness","speechiness","acousticness","instrumentalness","liveness","tempo"]].corr()
+sns.heatmap(corr,annot=True)
+plt.title("Correlation Heatmap of Music Features")
+plt.show()
+
+plt.figure()
+sns.boxplot(x=df["popularity"])
+plt.title("Box Plot Showing Spread of Song Popularity")
+plt.xlabel("Popularity")
+plt.show()
+
+plt.figure()
+sns.boxplot(x=df["tempo"])
+plt.title("Box Plot Showing Spread of Song Tempo")
+plt.xlabel("Tempo")
+plt.show()
+
+plt.figure()
+sns.barplot(x="explicit",y="popularity",data=df)
+plt.title("Average Popularity of Explicit vs Non Explicit Songs")
+plt.xlabel("Explicit")
+plt.ylabel("Average Popularity")
+plt.show()
